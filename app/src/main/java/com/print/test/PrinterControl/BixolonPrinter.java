@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.bxl.config.editor.BXLConfigLoader;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.nio.ByteBuffer;
 
@@ -1797,13 +1798,14 @@ public class BixolonPrinter implements ErrorListener, OutputCompleteListener, St
         }
     }
 
-    private void logThis(String warning, TransformerException exception) {
-        Log.e("logThis", warning + ": " + exception.getMessage());
+    private void logThis(String warning) {
+        Log.e("logThis", warning );
+        FirebaseCrashlytics.getInstance().recordException(new Exception ("BixolonPrinter.kt logthis  "+warning));
 
     }
 
     public void setDeviceLog(String deviceLog) {
-        logThis(deviceLog, null);
+        logThis(deviceLog);
     }
 
 }

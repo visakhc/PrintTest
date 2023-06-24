@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -28,8 +29,10 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.print.test.PrinterControl.BixolonPrinter
 import com.print.test.databinding.ActivityMainBinding
+import com.print.test.id.timeID
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.OnTouchListener {
 
@@ -90,6 +93,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
+
+        binding?.version?.text = "Version: ${BuildConfig.VERSION_NAME}\nsessionID: $timeID"
+
         permissionHandle()
 
         val policy = ThreadPolicy.Builder().permitAll().build()
@@ -317,7 +324,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.
     private fun printNow() {
         mHandler.obtainMessage(0).sendToTarget()
         Thread {
-
+            logThis("bxlPrinter inst is $bxlPrinter    portType: $portType  logicalName: $logicalName address: $address checkBoxAsyncMode: $checkBoxAsyncMode")
             if (bxlPrinter.printerOpen(
                     portType,
                     logicalName,
@@ -325,7 +332,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.
                     checkBoxAsyncMode
                 )
             ) {
-                finish()
+                // finish()
+                logThis("bxlPrinter  is open")
+                binding?.btConnect?.apply {
+                    text = "Connected"
+                    setTextColor(Color.WHITE)
+                    setBackgroundColor(Color.GREEN)
+                }
+                //Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show()
             } else {
                 mHandler.obtainMessage(1, 0, 0, "Fail to printer open!!").sendToTarget()
             }
@@ -442,4 +456,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener, View.
 
 fun logThis(m: Any?) {
     Log.d("logThis", "::: $m")
+    FirebaseCrashlytics.getInstance()
+        .recordException(java.lang.Exception("[$timeID]   logThis ::: $m"))
+
 }

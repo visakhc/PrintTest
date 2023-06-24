@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "168005495412",
+    "project_id": "printtest-d0ba9",
+    "storage_bucket": "printtest-d0ba9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168005495412:android:04ded566b87b9d14c83f21",
+        "android_client_info": {
+          "package_name": "com.print.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168005495412-stdhk8t9dnblnd05fg7p6rhcr7n0a80n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG7V7XbsvDv74x4dnGzKR7rqnsMVYuRfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168005495412-stdhk8t9dnblnd05fg7p6rhcr7n0a80n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
